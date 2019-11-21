@@ -4,7 +4,8 @@ Haven Backend API (WIP)
 
 ## Get all users
 
-### Request: `GET /api/users/`
+### Request: 
+`GET /api/users/`
 ### Response:
 
     {
@@ -14,7 +15,8 @@ Haven Backend API (WIP)
     
 ## Get a specific user
 
-### Request: `GET /api/user/<``user_``id>/`
+### Request: 
+`GET /api/user/<user_id>/`
 ### Response:
 
     {
@@ -31,7 +33,8 @@ Haven Backend API (WIP)
 
 ## Get all listings
 
-### Request: `GET /api/listings/`
+### Request: 
+`GET /api/listings/`
 ### Response:
 
     {
@@ -40,7 +43,8 @@ Haven Backend API (WIP)
     }
 ## Get all listings per user
 
- ### Request: `GET /api/``user/<user_id>/listings``/`
+ ### Request: 
+ `GET /api/user/<user_id>/listings/`
  ### Response:
 
     {
@@ -50,7 +54,8 @@ Haven Backend API (WIP)
     
 ## Get all drafts per user
 
-### Request: `GET /api/``user/<user_id>/drafts``/`
+### Request: 
+`GET /api/user/<user_id>/drafts/`
 ### Response:
 
     {
@@ -60,7 +65,8 @@ Haven Backend API (WIP)
 
 ## Get a specific listing
 
-### Request: `GET /api/listing/<``listing_``id>/`
+### Request: 
+`GET /api/listing/<listing_id>/`
 ### Response:
 
     {
@@ -79,7 +85,8 @@ Haven Backend API (WIP)
     
 ## Post a listing
 
-### Request: `POST /api/``user/<user_id>/``listings/`
+### Request: 
+`POST /api/user/<user_id>/listings/`
 ### Body:
 
     {
@@ -112,7 +119,8 @@ Haven Backend API (WIP)
     
 ## Save a draft
 
-### Request: `POST /api/``user/<user_id>/``listings/`
+### Request: 
+`POST /api/user/<user_id>/listings/`
 ### Body:
 
     {
@@ -136,35 +144,11 @@ Haven Backend API (WIP)
         "address": "717 E. Buffalo Street"
       }
     }
-    
-## Search listings
-
-### Request: `GET /api/listings/search?q=<query>`
-### Body:
-
-    {
-      "max_price": 2000,
-      "filter2": ...
-    }
-
-### Response:
-
-    {
-      "success": True,
-      "data": {
-        "listings": [ <LISTINGS> ]
-        "query": "buffalo"
-        "applied_filters": {
-          "max_price": 2000,
-          "filter2":
-        }
-      }
-    }
-
 
 ## Get all collections per user
 
- ### Request: `GET /api/``user/<user_id>/collections``/`
+ ### Request: 
+ `GET /api/user/<user_id>/collections/`
  ### Response:
 
     {
@@ -174,7 +158,8 @@ Haven Backend API (WIP)
     
 ## Get a specific collection
 
-### Request: `GET /api/``collections``/<``collection_id``>/`
+### Request: 
+`GET /api/collections/<collection_id>/`
 ### Response:
 
     {
