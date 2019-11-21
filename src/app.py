@@ -1,7 +1,6 @@
 import json
-from db import db, Course, User, Assignment
+from db import db, Listing, Collection
 from flask import Flask, request
-from datetime import datetime
 
 db_filename = "todo.db"
 app = Flask(__name__)
@@ -14,99 +13,150 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-# Get all courses
-# GET /api/courses/
+# Get all users
+# GET /api/users/
 @app.route('/')
-@app.route('/api/courses/')
-def get_courses():
-    courses = Course.query.all()
-    res = {'success': True, 'data': [c.serialize() for c in courses]}
-    return json.dumps(res), 200
-
-# Create a course
-# POST /api/courses/
-@app.route('/api/courses/', methods=['POST'])
-def create_course():
-    post_body = json.loads(request.data)
-    code = post_body.get('code', '')
-    name = post_body.get('name', '')
-    course = Course(code=code, name=name)
-    db.session.add(course)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': course.serialize()}), 201
-
-# Get a specific course
-# GET /api/course/{id}/
-@app.route('/api/course/<int:course_id>/')
-def get_course(course_id):
-    course = Course.query.filter_by(id=course_id).first()
-    if not course:
-        return json.dumps({'success': False, 'error': 'Course not found.'}), 404
-    return json.dumps({'success': True, 'data': course.serialize()}), 200
-
-# Create a user
-# POST /api/users/
-@app.route('/api/users/', methods=['POST'])
-def create_user():
-    post_body = json.loads(request.data)
-    user = User(
-        name=post_body.get('name', ''),
-        netid=post_body.get('netid', '')
-    )
-    db.session.add(user)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': user.serialize()}), 201
+@app.route('/api/users/')
+def get_users():
+    # TODO: implement route
+    return
+    # courses = Course.query.all()
+    # res = {'success': True, 'data': [c.serialize() for c in courses]}
+    # return json.dumps(res), 200
 
 # Get a specific user
-# GET /api/user/{id}/
+# GET /api/user/{user_id}/
 @app.route('/api/user/<int:user_id>/')
 def get_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
-    if not user:
-        return json.dumps({'success': False, 'error': 'User not found.'}), 404
-    return json.dumps({'success': True, 'data': user.serialize()}), 200
+    # TODO: implement route
+    return
+    # course = Course.query.filter_by(id=course_id).first()
+    # if not course:
+    #     return json.dumps({'success': False, 'error': 'Course not found.'}), 404
+    # return json.dumps({'success': True, 'data': course.serialize()}), 200
 
-# Add a user to a specific course
-# POST /api/course/{course_id}/add/
-@app.route('/api/course/<int:course_id>/add/', methods=['POST'])
-def add_user_to_course(course_id):
-    post_body = json.loads(request.data)
-    user_id = post_body.get('user_id', '')
-    t = post_body.get('type', '')
-    user = User.query.filter_by(id=user_id).first()
-    course = Course.query.filter_by(id=course_id).first()
-    if not course or not user:
-        return json.dumps({'success': False, 'error': 'Course or User not found.'}), 404
-    if t != 'student' and t != 'instructor':
-        return json.dumps({'success': False, 'error': 'Type should be \'instructor\' or \'student\'.'}), 404
-    if t == 'student':
-        course.students.append(user)
-    elif t == 'instructor':
-        course.instructors.append(user)
-    db.session.commit()
-    return json.dumps({'success': True, 'data': user.serialize()}), 200
+# Add a user
+# POST /api/users/
+@app.route('/api/users/', methods=['POST'])
+def add_user():
+    # TODO: implement route
+    return
+    # post_body = json.loads(request.data)
+    # user = User(
+    #     name=post_body.get('name', ''),
+    #     netid=post_body.get('netid', '')
+    # )
+    # db.session.add(user)
+    # db.session.commit()
+    # return json.dumps({'success': True, 'data': user.serialize()}), 201
+
+# Get all listings
+# GET /api/listings/
+@app.route('/api/listings/')
+def get_listings():
+    listings = Listing.query.all()
+    res = {'success': True, 'data': [l.serialize() for l in listings]}
+    return json.dumps(res), 200
+
+# Get all listings per user
+# GET /api/user/<user_id>/listings/
+@app.route('/api/user/<int:user_id>/listings/')
+def get_listings_by_user(user_id):
+    # TODO: implement route
+    return
+
+# Get all drafts per user
+# GET /api/user/<user_id>/drafts/
+@app.route('/api/user/<int:user_id>/drafts/')
+def get_drafts_by_user(user_id):
+    # TODO: implement route
+    return
+
+# Get a specific listing
+# GET /api/listing/<listing_id>/
+@app.route('/api/listing/<int:listing_id>/')
+def get_listing(listing_id):
+    # TODO: implement route
+    return
+
+# Post a listing or draft
+# POST /api/user/<user_id>/listings/
+@app.route('/api/user/<int:user_id>/listings/', methods=['POST'])
+def add_listing(user_id):
+     # TODO: implement route
+    return
+    # post_body = json.loads(request.data)
+    # code = post_body.get('code', '')
+    # name = post_body.get('name', '')
+    # course = Course(code=code, name=name)
+    # db.session.add(course)
+    # db.session.commit()
+    # return json.dumps({'success': True, 'data': course.serialize()}), 201
+
+# Get all collections per user
+# GET /api/user/<user_id>/collections/
+@app.route('/api/user/<int:user_id>/collections/')
+def get_collections_by_user(user_id):
+     # TODO: implement route
+    return
+
+# Get a specific collection
+# GET /api/user/<user_id>/collection/<collection_id>/
+@app.route('/api/user/<int:user_id>/collection/<int:collection_id>')
+def get_collection_by_user(user_id, collection_id):
+     # TODO: implement route
+    return
+
+# Post a new collection
+# POST /api/user/<user_id>/collections/
+@app.route('/api/user/<int:user_id>/collections/')
+def add_collection(user_id):
+     # TODO: implement route
+    return
+
+# Save a listing to a collection
+# POST /api/user/<user_id>/collection/<collection_id>
+@app.route('/api/user/<int:user_id>/collection/<int:collection_id>', methods=['POST'])
+def add_listing_to_collection(user_id, collection_id):
+     # TODO: implement route
+    return
+    # post_body = json.loads(request.data)
+    # user_id = post_body.get('user_id', '')
+    # t = post_body.get('type', '')
+    # user = User.query.filter_by(id=user_id).first()
+    # course = Course.query.filter_by(id=course_id).first()
+    # if not course or not user:
+    #     return json.dumps({'success': False, 'error': 'Course or User not found.'}), 404
+    # if t != 'student' and t != 'instructor':
+    #     return json.dumps({'success': False, 'error': 'Type should be \'instructor\' or \'student\'.'}), 404
+    # if t == 'student':
+    #     course.students.append(user)
+    # elif t == 'instructor':
+    #     course.instructors.append(user)
+    # db.session.commit()
+    # return json.dumps({'success': True, 'data': user.serialize()}), 200
 
 # Create an assignment for a course
 # POST /api/course/{course_id}/assignment/
-@app.route('/api/course/<int:course_id>/assignment/', methods=['POST'])
-def create_assignment(course_id):
-    course = Course.query.filter_by(id=course_id).first()
-    if not course:
-        return json.dumps({'success': False, 'error': 'Course not found.'}), 404
-    post_body = json.loads(request.data)
-    due_date = datetime.strptime(post_body.get(
-        'due_date', ''), '%m/%d/%Y').timestamp()
-    assignment = Assignment(
-        title=post_body.get('title', ''),
-        due_date=due_date,
-        course=course_id
-    )
-    course.assignments.append(assignment)
-    db.session.add(assignment)
-    db.session.commit()
-    a = assignment.serialize()
-    a['course'] = course.simplified()
-    return json.dumps({'success': True, 'data': a}), 201
+# @app.route('/api/course/<int:course_id>/assignment/', methods=['POST'])
+# def create_assignment(course_id):
+#     course = Course.query.filter_by(id=course_id).first()
+#     if not course:
+#         return json.dumps({'success': False, 'error': 'Course not found.'}), 404
+#     post_body = json.loads(request.data)
+#     due_date = datetime.strptime(post_body.get(
+#         'due_date', ''), '%m/%d/%Y').timestamp()
+#     assignment = Assignment(
+#         title=post_body.get('title', ''),
+#         due_date=due_date,
+#         course=course_id
+#     )
+#     course.assignments.append(assignment)
+#     db.session.add(assignment)
+#     db.session.commit()
+#     a = assignment.serialize()
+#     a['course'] = course.simplified()
+#     return json.dumps({'success': True, 'data': a}), 201
 
 
 if __name__ == '__main__':
