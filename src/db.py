@@ -2,19 +2,75 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# student_association = db.Table(
-#     'student_association',
-#     db.Model.metadata,
-#     db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
-#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-# )
-# instructor_association = db.Table(
-#     'instructor_association',
-#     db.Model.metadata,
-#     db.Column('course_id', db.Integer, db.ForeignKey('course.id')),
-#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-# )
+save_association = db.Table(
+    'save_association',
+    db.Model.metadata,
+    db.Column('listing_id', db.Integer, db.ForeignKey('listing.id')),
+    db.Column('collection_id', db.Integer, db.ForeignKey('collection.id'))
+)
 
+
+class Listing(db.Model):
+    __tablename__ = 'listing'
+    id = db.Column(db.Integer, primary_key=True)
+    # TODO: update user_id to be relationship with user.id
+    user_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    is_draft = db.Column(db.Boolean, nullable=False)
+    description = db.Column(db.String, nullable=True)
+    rent = db.Column(db.Integer, nullable=True)
+    address = db.Column(db.String, nullable=False)
+    collections = db.relationship(
+        'Collection', secondary=save_association, back_populates='listings')
+
+    def __init__(self, **kwargs):
+        self.user_id = kwargs.get('user_id', -1)
+        self.title = kwargs.get('title', '')
+        self.is_draft = kwargs.get('is_draft', True)
+        self.description = kwargs.get('description', '')
+        self.rent = kwargs.get('rent', -1)
+        self.address = kwargs.get('address', '')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'title': self.title,
+            'is_draft': self.is_draft,
+            'description': self.description,
+            'rent': self.rent,
+            'address': self.address,
+        }
+
+
+class Collection(db.Model):
+    __tablename__ = 'collection'
+    id = db.Column(db.Integer, primary_key=True)
+    # TODO: update user_id to be relationship with user.id
+    user_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    listings = db.relationship(
+        'Listing', secondary=save_association, back_populates='collections')
+
+    def __init__(self, **kwargs):
+        self.user_id = kwargs.get('user_id', -1)
+        self.title = kwargs.get('title', '')
+        self.is_draft = kwargs.get('is_draft', True)
+        self.description = kwargs.get('description', '')
+        self.rent = kwargs.get('rent', -1)
+        self.address = kwargs.get('address', '')
+        self.listings = kwargs.get('listings', [])
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'title': self.title,
+            'is_draft': self.is_draft,
+            'description': self.description,
+            'rent': self.rent,
+            'address': self.address,
+        }
 
 # class Course(db.Model):
 #     __tablename__ = 'course'
