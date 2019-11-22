@@ -92,13 +92,8 @@ def add_listing(user_id):
     address = post_body.get('address', '')
 
     listing = Listing(
-        user_id=user_id,
-        title=title,
-        is_draft=is_draft,
-        description=description,
-        rent=rent,
-        address=address)
-
+        user_id=user_id, title=title, is_draft=is_draft,
+        description=description, rent=rent, address=address)
     db.session.add(listing)
     db.session.commit()
     return json.dumps({'success': True, 'data': listing.serialize()}), 201

@@ -55,10 +55,6 @@ class Collection(db.Model):
     def __init__(self, **kwargs):
         self.user_id = kwargs.get('user_id', -1)
         self.title = kwargs.get('title', '')
-        self.is_draft = kwargs.get('is_draft', True)
-        self.description = kwargs.get('description', '')
-        self.rent = kwargs.get('rent', -1)
-        self.address = kwargs.get('address', '')
         self.listings = kwargs.get('listings', [])
 
     def serialize(self):
@@ -66,10 +62,7 @@ class Collection(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'title': self.title,
-            'is_draft': self.is_draft,
-            'description': self.description,
-            'rent': self.rent,
-            'address': self.address
+            'listings': [l.serialize() for l in self.listings]
         }
 
 # class Course(db.Model):
