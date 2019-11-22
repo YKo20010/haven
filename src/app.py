@@ -83,42 +83,45 @@ def get_listing(listing_id):
 # POST /api/user/<user_id>/listings/
 @app.route('/api/user/<int:user_id>/listings/', methods=['POST'])
 def add_listing(user_id):
-     # TODO: implement route
-    return
-    # post_body = json.loads(request.data)
-    # code = post_body.get('code', '')
-    # name = post_body.get('name', '')
-    # course = Course(code=code, name=name)
-    # db.session.add(course)
-    # db.session.commit()
-    # return json.dumps({'success': True, 'data': course.serialize()}), 201
+    post_body = json.loads(request.data)
+    title = post_body.get('title', '')
+    is_draft = post_body.get('is_draft', True)
+    description = post_body.get('description', '')
+    rent = post_body.get('rent', -1)
+    address = post_body.get('address', '')
+    listing = Listing(
+        user_id=user_id, title=title, is_draft=is_draft,
+        description=description, rent=rent, address=address)
+    db.session.add(listing)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': listing.serialize()}), 201
 
 # Get all collections per user
 # GET /api/user/<user_id>/collections/
 @app.route('/api/user/<int:user_id>/collections/')
 def get_collections_by_user(user_id):
-     # TODO: implement route
+        # TODO: implement route
     return
 
 # Get a specific collection
 # GET /api/user/<user_id>/collection/<collection_id>/
 @app.route('/api/user/<int:user_id>/collection/<int:collection_id>')
 def get_collection_by_user(user_id, collection_id):
-     # TODO: implement route
+        # TODO: implement route
     return
 
 # Post a new collection
 # POST /api/user/<user_id>/collections/
 @app.route('/api/user/<int:user_id>/collections/')
 def add_collection(user_id):
-     # TODO: implement route
+        # TODO: implement route
     return
 
 # Save a listing to a collection
 # POST /api/user/<user_id>/collection/<collection_id>
 @app.route('/api/user/<int:user_id>/collection/<int:collection_id>', methods=['POST'])
 def add_listing_to_collection(user_id, collection_id):
-     # TODO: implement route
+        # TODO: implement route
     return
     # post_body = json.loads(request.data)
     # user_id = post_body.get('user_id', '')

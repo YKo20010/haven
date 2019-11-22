@@ -1,3 +1,7 @@
 # temporary files
 .DS_Store
 venv
+__pycache__/
+todo.db
+
+
