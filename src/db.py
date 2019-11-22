@@ -30,6 +30,14 @@ class Listing(db.Model):
         self.description = kwargs.get('description', None)
         self.rent = kwargs.get('rent', None)
         self.address = kwargs.get('address', '')
+        self.collections = kwargs.get('collections', [])
+
+    def simplified(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'title': self.title
+        }
 
     def serialize(self):
         return {
@@ -39,7 +47,8 @@ class Listing(db.Model):
             'is_draft': self.is_draft,
             'description': self.description,
             'rent': self.rent,
-            'address': self.address
+            'address': self.address,
+            'collections': [c.simplified() for c in self.collections]
         }
 
 
@@ -57,12 +66,19 @@ class Collection(db.Model):
         self.title = kwargs.get('title', '')
         self.listings = kwargs.get('listings', [])
 
+    def simplified(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'title': self.title
+        }
+
     def serialize(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
             'title': self.title,
-            'listings': [l.serialize() for l in self.listings]
+            'listings': [l.simplified() for l in self.listings]
         }
 
 # class Course(db.Model):

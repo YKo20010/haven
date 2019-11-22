@@ -83,6 +83,9 @@ def get_listing(listing_id):
 # POST /api/user/<user_id>/listings/
 @app.route('/api/user/<int:user_id>/listings/', methods=['POST'])
 def add_listing(user_id):
+    # user = User.query.filter_by(id=user_id).first()
+    # if not user:
+    #     return json.dumps({'success': False, 'error': 'User not found.'}), 404
     post_body = json.loads(request.data)
 
     title = post_body.get('title', '')
@@ -94,8 +97,10 @@ def add_listing(user_id):
     listing = Listing(
         user_id=user_id, title=title, is_draft=is_draft,
         description=description, rent=rent, address=address)
+
     db.session.add(listing)
     db.session.commit()
+
     return json.dumps({'success': True, 'data': listing.serialize()}), 201
 
 # Get all collections per user
