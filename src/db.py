@@ -14,7 +14,7 @@ class Listing(db.Model):
     __tablename__ = 'listing'
     id = db.Column(db.Integer, primary_key=True)
     # TODO: update user_id to be relationship with user.id
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String, nullable=False)
     is_draft = db.Column(db.Boolean, nullable=False)
     description = db.Column(db.String, nullable=True)
@@ -27,8 +27,8 @@ class Listing(db.Model):
         self.user_id = kwargs.get('user_id', -1)
         self.title = kwargs.get('title', '')
         self.is_draft = kwargs.get('is_draft', True)
-        self.description = kwargs.get('description', '')
-        self.rent = kwargs.get('rent', -1)
+        self.description = kwargs.get('description', None)
+        self.rent = kwargs.get('rent', None)
         self.address = kwargs.get('address', '')
 
     def serialize(self):
@@ -39,7 +39,7 @@ class Listing(db.Model):
             'is_draft': self.is_draft,
             'description': self.description,
             'rent': self.rent,
-            'address': self.address,
+            'address': self.address
         }
 
 
@@ -47,7 +47,7 @@ class Collection(db.Model):
     __tablename__ = 'collection'
     id = db.Column(db.Integer, primary_key=True)
     # TODO: update user_id to be relationship with user.id
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String, nullable=False)
     listings = db.relationship(
         'Listing', secondary=save_association, back_populates='collections')
@@ -69,7 +69,7 @@ class Collection(db.Model):
             'is_draft': self.is_draft,
             'description': self.description,
             'rent': self.rent,
-            'address': self.address,
+            'address': self.address
         }
 
 # class Course(db.Model):

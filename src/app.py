@@ -84,14 +84,21 @@ def get_listing(listing_id):
 @app.route('/api/user/<int:user_id>/listings/', methods=['POST'])
 def add_listing(user_id):
     post_body = json.loads(request.data)
+
     title = post_body.get('title', '')
     is_draft = post_body.get('is_draft', True)
     description = post_body.get('description', '')
     rent = post_body.get('rent', -1)
     address = post_body.get('address', '')
+
     listing = Listing(
-        user_id=user_id, title=title, is_draft=is_draft,
-        description=description, rent=rent, address=address)
+        user_id=user_id,
+        title=title,
+        is_draft=is_draft,
+        description=description,
+        rent=rent,
+        address=address)
+
     db.session.add(listing)
     db.session.commit()
     return json.dumps({'success': True, 'data': listing.serialize()}), 201
