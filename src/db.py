@@ -9,12 +9,19 @@ save_association = db.Table(
     db.Column('collection_id', db.Integer, db.ForeignKey('collection.id'))
 )
 
+listing_association = db.Table(
+    'listing_association',
+    db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('listing_id', db.Integer, db.ForeignKey('listing.id'))
+)
+
+
 
 class Listing(db.Model):
     __tablename__ = 'listing'
     id = db.Column(db.Integer, primary_key=True)
-    # TODO: update user_id to be relationship with user.id
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String, nullable=False)
     is_draft = db.Column(db.Boolean, nullable=False)
     description = db.Column(db.String, nullable=True)
@@ -55,8 +62,7 @@ class Listing(db.Model):
 class Collection(db.Model):
     __tablename__ = 'collection'
     id = db.Column(db.Integer, primary_key=True)
-    # TODO: update user_id to be relationship with user.id
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String, nullable=False)
     listings = db.relationship(
         'Listing', secondary=save_association, back_populates='collections')
@@ -115,34 +121,24 @@ class Collection(db.Model):
 #         }
 
 
-# class User(db.Model):
-#     __tablename__ = 'user'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String, nullable=False)
-#     netid = db.Column(db.String, nullable=False)
-#     teaching = db.relationship(
-#         'Course', secondary=instructor_association, back_populates='instructors')
-#     taking = db.relationship(
-#         'Course', secondary=student_association, back_populates='students')
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    listings = db.relationship('Listing', secondary=listing_association, cascade='delete')
+    collections = db.relationship('Collection', cascade='delete')
 
-#     def __init__(self, **kwargs):
-#         self.name = kwargs.get('name', '')
-#         self.netid = kwargs.get('netid', '')
+    def __init__(self, **kwargs):
+        self.name = kwargs.get('name', '')
 
-#     def simplified(self):
-#         return {
-#             'id': self.id,
-#             'name': self.name,
-#             'netid': self.netid
-#         }
-
-#     def serialize(self):
-#         return {
-#             'id': self.id,
-#             'name': self.name,
-#             'netid': self.netid,
-#             'courses': [c.simplified() for c in self.teaching].__add__([c.simplified() for c in self.taking])
-#         }
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'drafts': [l.simplified() for l in self.listings if l.is_draft],
+            'listings': [l.simplified() for l in self.listings if not l.is_draft],
+            'collections': [c.simplified() for c in self.collections]
+        }
 
 
 # # One to many: course to assignments.

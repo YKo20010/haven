@@ -1,5 +1,5 @@
 import json
-from db import db, Listing, Collection
+from db import db, Listing, Collection, User
 from flask import Flask, request
 
 db_filename = "todo.db"
@@ -18,37 +18,31 @@ with app.app_context():
 @app.route('/')
 @app.route('/api/users/')
 def get_users():
-    # TODO: implement route
-    return
-    # courses = Course.query.all()
-    # res = {'success': True, 'data': [c.serialize() for c in courses]}
-    # return json.dumps(res), 200
+    users = User.query.all()
+    res = {'success': True, 'data': [u.serialize() for u in users]}
+    return json.dumps(res), 200
 
 # Get a specific user
 # GET /api/user/{user_id}/
 @app.route('/api/user/<int:user_id>/')
 def get_user(user_id):
-    # TODO: implement route
-    return
-    # course = Course.query.filter_by(id=course_id).first()
-    # if not course:
-    #     return json.dumps({'success': False, 'error': 'Course not found.'}), 404
-    # return json.dumps({'success': True, 'data': course.serialize()}), 200
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return json.dumps({'success': False, 'error': 'User not found.'}), 404
+    return json.dumps({'success': True, 'data': user.serialize()}), 200
 
 # Add a user
 # POST /api/users/
 @app.route('/api/users/', methods=['POST'])
 def add_user():
     # TODO: implement route
-    return
-    # post_body = json.loads(request.data)
-    # user = User(
-    #     name=post_body.get('name', ''),
-    #     netid=post_body.get('netid', '')
-    # )
-    # db.session.add(user)
-    # db.session.commit()
-    # return json.dumps({'success': True, 'data': user.serialize()}), 201
+    post_body = json.loads(request.data)
+    user = User(
+        name=post_body.get('name', '')
+    )
+    db.session.add(user)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': user.serialize()}), 201
 
 # Get all listings
 # GET /api/listings/
@@ -170,4 +164,4 @@ def add_listing_to_collection(user_id, collection_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)
