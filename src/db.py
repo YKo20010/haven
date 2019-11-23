@@ -17,6 +17,24 @@ listing_association = db.Table(
 )
 
 
+class Image(db.Model):
+    __tablename__ = 'image'
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String, nullable=False)
+    # One to many: listing id
+    listing_id = db.Column(db.Integer, db.ForeignKey(
+        'listing.id'), nullable=False)
+
+    def __init__(self, **kwargs):
+        self.image = kwargs.get('image', '')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'image': self.image,
+            'listing_id': self.listing_id
+        }
+
 
 class Listing(db.Model):
     __tablename__ = 'listing'
@@ -27,6 +45,7 @@ class Listing(db.Model):
     description = db.Column(db.String, nullable=True)
     rent = db.Column(db.Integer, nullable=True)
     address = db.Column(db.String, nullable=False)
+    images = db.relationship('Image', cascade='delete')
     collections = db.relationship(
         'Collection', secondary=save_association, back_populates='listings')
 
@@ -37,6 +56,7 @@ class Listing(db.Model):
         self.description = kwargs.get('description', None)
         self.rent = kwargs.get('rent', None)
         self.address = kwargs.get('address', '')
+        self.images = kwargs.get('images', [])
         self.collections = kwargs.get('collections', [])
 
     def simplified(self):
@@ -55,6 +75,7 @@ class Listing(db.Model):
             'description': self.description,
             'rent': self.rent,
             'address': self.address,
+            'images': [i.serialize() for i in self.images],
             'collections': [c.simplified() for c in self.collections]
         }
 
@@ -87,45 +108,13 @@ class Collection(db.Model):
             'listings': [l.simplified() for l in self.listings]
         }
 
-# class Course(db.Model):
-#     __tablename__ = 'course'
-#     id = db.Column(db.Integer, primary_key=True)
-#     code = db.Column(db.String, nullable=False)
-#     name = db.Column(db.String, nullable=False)
-#     assignments = db.relationship('Assignment', cascade='delete')
-#     instructors = db.relationship(
-#         'User', secondary=instructor_association, back_populates='teaching')
-#     students = db.relationship(
-#         'User', secondary=student_association, back_populates='taking')
-
-#     def __init__(self, **kwargs):
-#         self.code = kwargs.get('code', '')
-#         self.name = kwargs.get('name', '')
-#         self.assignments = kwargs.get('assignments', [])
-
-#     def simplified(self):
-#         return {
-#             'id': self.id,
-#             'code': self.code,
-#             'name': self.name
-#         }
-
-#     def serialize(self):
-#         return {
-#             'id': self.id,
-#             'code': self.code,
-#             'name': self.name,
-#             'assignments': [a.serialize() for a in self.assignments],
-#             'instructors': [i.simplified() for i in self.instructors],
-#             'students': [s.simplified() for s in self.students]
-#         }
-
 
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    listings = db.relationship('Listing', secondary=listing_association, cascade='delete')
+    listings = db.relationship(
+        'Listing', secondary=listing_association, cascade='delete')
     collections = db.relationship('Collection', cascade='delete')
 
     def __init__(self, **kwargs):
@@ -139,27 +128,3 @@ class User(db.Model):
             'listings': [l.simplified() for l in self.listings if not l.is_draft],
             'collections': [c.simplified() for c in self.collections]
         }
-
-
-# # One to many: course to assignments.
-# class Assignment(db.Model):
-#     __tablename__ = 'assignment'
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String, nullable=False)
-#     # Change to unix time.
-#     due_date = db.Column(db.Integer, nullable=False)
-#     # course_id
-#     course = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
-
-#     def __init__(self, **kwargs):
-#         self.title = kwargs.get('title', '')
-#         # Change to unix time.
-#         self.due_date = kwargs.get('due_date', '')
-
-#     def serialize(self):
-#         return {
-#             'id': self.id,
-#             'title': self.title,
-#             'due_date': self.due_date,
-#             'course': self.course
-#         }
