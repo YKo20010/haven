@@ -94,6 +94,23 @@ def add_listing(user_id):
 
     return json.dumps({'success': True, 'data': listing.serialize()}), 201
 
+# Edit a listing
+# POST /api/listing/<listing_id>/
+@app.route('/api/listing/<int:listing_id>/', methods=['POST'])
+def edit_listing(listing_id):
+    listing = Listing.query.filter_by(id=listing_id).first()
+    if not listing:
+        return json.dumps({'success': False, 'error': 'Listing not found.'}), 404
+    post_body = json.loads(request.data)
+
+    listing.title = post_body.get('title', listing.title)
+    listing.is_draft = post_body.get('is_draft', listing.is_draft)
+    listing.description = post_body.get('description', listing.description)
+    listing.rent = post_body.get('rent', listing.rent)
+    listing.address = post_body.get('address', listing.address)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': listing.serialize()}), 201
+
 # Get all collections per user
 # GET /api/user/<user_id>/collections/
 @app.route('/api/user/<int:user_id>/collections/')
@@ -129,7 +146,7 @@ def add_collection(user_id):
     return json.dumps({'success': True, 'data': collection.serialize()}), 201
 
 # Save a listing to a collection
-# POST /api/user/<user_id>/collection/<collection_id>
+# POST /api/collection/<collection_id>
 @app.route('/api/collection/<int:collection_id>/', methods=['POST'])
 def add_listing_to_collection(collection_id):
     collection = Collection.query.filter_by(id=collection_id).first()
