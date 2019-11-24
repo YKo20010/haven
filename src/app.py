@@ -43,6 +43,17 @@ def add_user():
     db.session.commit()
     return json.dumps({'success': True, 'data': user.serialize()}), 201
 
+# Delete a user
+# DELETE /api/user/{user_id}/
+@app.route('/api/user/<int:user_id>/', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return json.dumps({'success': False, 'error': 'User not found.'}), 404
+    db.session.delete(user)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': user.serialize()}), 200
+
 # Get all listings
 # GET /api/listings/
 @app.route('/api/listings/')
@@ -111,6 +122,17 @@ def edit_listing(listing_id):
     db.session.commit()
     return json.dumps({'success': True, 'data': listing.serialize()}), 201
 
+# Delete a listing
+# DELETE /api/listing/<listing_id>/
+@app.route('/api/listing/<int:listing_id>/', methods=['DELETE'])
+def delete_listing(listing_id):
+    listing = Listing.query.filter_by(id=listing_id).first()
+    if not listing:
+        return json.dumps({'success': False, 'error': 'Listing not found.'}), 404
+    db.session.delete(listing)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': listing.serialize()}), 200
+
 # Get all collections per user
 # GET /api/user/<user_id>/collections/
 @app.route('/api/user/<int:user_id>/collections/')
@@ -124,7 +146,7 @@ def get_collections_by_user(user_id):
 # Get a specific collection
 # GET /api/collection/<collection_id>/
 @app.route('/api/collection/<int:collection_id>/')
-def get_collection_by_user(collection_id):
+def get_collection(collection_id):
     collection = Collection.query.filter_by(id=collection_id).first()
     if not collection:
         return json.dumps({'success': False, 'error': 'Collection not found.'}), 404
@@ -161,9 +183,20 @@ def add_listing_to_collection(collection_id):
     db.session.commit()
     return json.dumps({'success': True, 'data': collection.serialize()}), 200
 
+# Delete a collection
+# DELETE /api/collection/<collection_id>/
+@app.route('/api/collection/<int:collection_id>/', methods=['DELETE'])
+def delete_collection(collection_id):
+    collection = Collection.query.filter_by(id=collection_id).first()
+    if not collection:
+        return json.dumps({'success': False, 'error': 'Collection not found.'}), 404
+    db.session.delete(collection)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': collection.serialize()}), 200
+
 # Create an image for a listing
-# POST /api/listing/<listing_id>/
-@app.route('/api/listing/<int:listing_id>/', methods=['POST'])
+# POST /api/listing/<listing_id>/images/
+@app.route('/api/listing/<int:listing_id>/images/', methods=['POST'])
 def add_image(listing_id):
     listing = Listing.query.filter_by(id=listing_id).first()
     if not listing:
@@ -177,6 +210,36 @@ def add_image(listing_id):
     db.session.add(image)
     db.session.commit()
     return json.dumps({'success': True, 'data': image.serialize()}), 201
+
+# Get all images per listing
+# GET /api/listing/<listing_id>/images/
+@app.route('/api/listing/<int:listing_id>/images/')
+def get_images(listing_id):
+    listing = Listing.query.filter_by(id=listing_id).first()
+    if not listing:
+        return json.dumps({'success': False, 'error': 'Listing not found.'}), 404
+    images = listing.images
+    return json.dumps({'success': True, 'data': [i.serialize() for i in images]}), 200
+
+# Get a specific image
+# GET /api/image/<image_id>/
+@app.route('/api/image/<int:image_id>/')
+def get_image(image_id):
+    image = Image.query.filter_by(id=image_id).first()
+    if not image:
+        return json.dumps({'success': False, 'error': 'Image not found.'}), 404
+    return json.dumps({'success': True, 'data': image.serialize()}), 200
+
+# Delete a image
+# DELETE /api/image/<image_id>/
+@app.route('/api/image/<int:image_id>/', methods=['DELETE'])
+def delete_image(image_id):
+    image = Image.query.filter_by(id=image_id).first()
+    if not image:
+        return json.dumps({'success': False, 'error': 'Image not found.'}), 404
+    db.session.delete(image)
+    db.session.commit()
+    return json.dumps({'success': True, 'data': image.serialize()}), 200
 
 
 if __name__ == '__main__':
