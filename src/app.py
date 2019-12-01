@@ -2,7 +2,7 @@ import json
 from db import db, Listing, Collection, User, Image
 from flask import Flask, request
 
-db_filename = "todo.db"
+db_filename = "haven.db"
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % db_filename
