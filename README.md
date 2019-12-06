@@ -15,7 +15,7 @@ Backend for posting/deleting/editing listings.
 
 &#10141; [Jack Thompson](https://github.com/jackthmp)
 
-### See spec with [Dropbox](https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf)
+### See spec with [Dropbox](https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf).
 
 ## Users
 - GET all users:  `/api/users/`
