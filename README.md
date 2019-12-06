@@ -1,7 +1,23 @@
 # Haven Backend API
 Backend for posting/deleting/editing listings.
 
-See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf
+### Backend Tools:
+
+&#10141; [SQLAlchemy](https://www.sqlalchemy.org/) - The ORM used
+
+&#10141; [Flask](http://flask.pocoo.org/) - Web framework
+
+&#10141; [Docker](https://www.docker.com/) - Containerization
+
+&#10141; [Google Cloud](https://cloud.google.com/) - Server hosting
+
+&#10141; See spec with [Dropbox](https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf)
+
+### Authors:
+
+&#10141; [Yanlam Ko](https://github.com/YKo20010)
+
+&#10141; [Jack Thompson](https://github.com/jackthmp)
 
 ## Users
 - GET all users:  `/api/users/`
@@ -10,10 +26,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
 - DELETE user by user_id:  `/api/user/<user_id>/`
 
 ### Get all users
-
-### Request: 
-`GET /api/users/`
-### Response:
+#### Request: `GET /api/users/`
+#### Response:
 
     {
       "success": True,
@@ -21,10 +35,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
     
 ### Get a user by user_id
-
-### Request: 
-`GET /api/user/<user_id>/`
-### Response:
+#### Request: `GET /api/user/<user_id>/`
+#### Response:
 
     {
       "success": True,
@@ -38,16 +50,14 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
 
 ### Add a user
-
-### Request: 
-`POST /api/users/`
-### Body:
+#### Request: `POST /api/users/`
+#### Body:
 
     {
       "name": "Jack"
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -62,9 +72,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Delete a user by user_id
 
-### Request: 
-`GET /api/user/<user_id>/`
-### Response:
+#### Request: `GET /api/user/<user_id>/`
+#### Response:
 
     {
       "success": True,
@@ -86,9 +95,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
 - DELETE listing by listing_id: `/api/listing/<listing_id>/`
 
 ### Get all listings
-### Request: 
-`GET /api/listings/`
-### Response:
+#### Request: `GET /api/listings/`
+#### Response:
 
     {
       "success": True,
@@ -97,10 +105,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Get listings by user_id
 - includes both published and drafts
-
- ### Request: 
- `GET /api/user/<user_id>/listings/`
- ### Response:
+#### Request: `GET /api/user/<user_id>/listings/`
+#### Response:
 
     {
       "success": True,
@@ -109,10 +115,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Get a listing by listing_id
 - includes both published and drafts
-
-### Request: 
-`GET /api/listing/<listing_id>/`
-### Response:
+#### Request: `GET /api/listing/<listing_id>/`
+#### Response:
 
     {
       "success": True,
@@ -131,10 +135,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Delete a listing by listing_id
 - includes both published and drafts
-
-### Request: 
-`DELETE /api/listing/<listing_id>/`
-### Response:
+#### Request: `DELETE /api/listing/<listing_id>/`
+#### Response:
 
     {
       "success": True,
@@ -152,10 +154,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
     
 ### Add a listing by user_id
-
-### Request: 
-`POST /api/user/<user_id>/listings/`
-### Body:
+#### Request: `POST /api/user/<user_id>/listings/`
+#### Body:
 
     {
       "title": "Spacious 2BR Apt. in the heart of Collegetown",
@@ -165,7 +165,7 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
       "address": "717 E. Buffalo Street"
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -184,10 +184,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Save a draft by user_id
 - (same as Add a listing, but fewer info needed)
-
-### Request: 
-`POST /api/user/<user_id>/listings/`
-### Body:
+#### Request: `POST /api/user/<user_id>/listings/`
+#### Body:
 
     {
       "title": "Spacious 2BR Apt. in the heart of Collegetown",
@@ -195,7 +193,7 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
       "is_draft": True
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -214,10 +212,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Edit a listing by listing_id
 - (ie. allow to post listing from draft)
-
-### Request: 
-`POST /api/listing/<listing_id>/`
-### Body:
+#### Request: `POST /api/listing/<listing_id>/`
+#### Body:
 
     {
       "title": "New or Old title", #optional
@@ -227,7 +223,7 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
       "rent": 1050, #optional
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -253,10 +249,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
 - POST listing to collection by collection_id: `/api/collection/<collection_id>`
 
 ### Get collections by user_id
-
- ### Request: 
- `GET /api/user/<user_id>/collections/`
- ### Response:
+#### Request: `GET /api/user/<user_id>/collections/`
+#### Response:
 
     {
       "success": True,
@@ -264,10 +258,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
     
 ### Get a collection by collection_id
-
-### Request: 
-`GET /api/collection/<collection_id>/`
-### Response:
+#### Request: `GET /api/collection/<collection_id>/`
+#### Response:
 
     {
       "success": True,
@@ -280,16 +272,14 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
 
 ### Add a collection by user_id
-
-### Request: 
-`POST /api/user/<user_id>/collections/`
-### Body:
+#### Request: `POST /api/user/<user_id>/collections/`
+#### Body:
 
     {
       "title": "Spring 2020"
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -302,10 +292,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     }
     
 ### Delete a collection by collection_id
-
-### Request: 
-`DELETE /api/collection/<collection_id>/`
-### Response:
+#### Request: `DELETE /api/collection/<collection_id>/`
+#### Response:
 
     {
       "success": True,
@@ -319,15 +307,14 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Save listing to collection by collection_id
 
-### Request: 
-`POST /api/collection/<collection_id>`
-### Body:
+#### Request: `POST /api/collection/<collection_id>`
+#### Body:
 
     {
       "listing_id": 0
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -354,10 +341,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
 - DELETE image by image_id: `/api/image/<image_id>/`
 
 ### Get images by listing_id
-
-### Request: 
-`GET /api/listing/<listing_id>/images/`
-### Response:
+#### Request: `GET /api/listing/<listing_id>/images/`
+#### Response:
 
     {
       "success": True, 
@@ -372,9 +357,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Get a image by image_id
 
-### Request: 
-`GET /api/image/<image_id>/`
-## Response:
+#### Request: `GET /api/image/<image_id>/`
+#### Response:
 
     {
       "success": True,
@@ -387,15 +371,14 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Add image to listing by listing_id
 
-### Request: 
-`POST /api/listing/<listing_id>/images/`
-### Body:
+#### Request: `POST /api/listing/<listing_id>/images/`
+#### Body:
 
     {
         "image": "AISHLKJNW8\po3099ipoj33u9ISIDehjh189898 (image as a string)... "
     }
 
-### Response:
+#### Response:
 
     {
       "success": True,
@@ -408,9 +391,8 @@ See spec with Dropbox: https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_
     
 ### Delete a image by image_id
 
-### Request: 
-`DELETE /api/image/<image_id>/`
-### Response:
+#### Request: `DELETE /api/image/<image_id>/`
+#### Response:
 
     {
       "success": True,
