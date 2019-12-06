@@ -1,23 +1,17 @@
 # Haven Backend API
 Backend for posting/deleting/editing listings.
 
-### Backend Tools:
-
+#### Tools:
 &#10141; [SQLAlchemy](https://www.sqlalchemy.org/) - The ORM used
-
 &#10141; [Flask](http://flask.pocoo.org/) - Web framework
-
 &#10141; [Docker](https://www.docker.com/) - Containerization
-
 &#10141; [Google Cloud](https://cloud.google.com/) - Server hosting
 
-&#10141; See spec with [Dropbox](https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf)
-
-### Authors:
-
+#### Authors:
 &#10141; [Yanlam Ko](https://github.com/YKo20010)
-
 &#10141; [Jack Thompson](https://github.com/jackthmp)
+
+### See spec with [Dropbox](https://paper.dropbox.com/doc/Haven-Backend-API-WIP--Ap~_M5FNn_hdIArbDOHjuTmJAQ-bpk7vUlUZVoWzgrtHKBlf)
 
 ## Users
 - GET all users:  `/api/users/`
