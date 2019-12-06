@@ -150,7 +150,8 @@
     
 ### Add a listing by user_id
 
-### Request: `POST /api/user/<user_id>/listings/`
+### Request: 
+`POST /api/user/<user_id>/listings/`
 ### Body:
 
     {
@@ -250,7 +251,8 @@
 
 ### Get collections by user_id
 
- ### Request: `GET /api/user/<user_id>/collections/`
+ ### Request: 
+ `GET /api/user/<user_id>/collections/`
  ### Response:
 
     {
